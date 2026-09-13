@@ -1,0 +1,174 @@
+﻿.section {
+  width: 100%;
+  padding: 42px 0 24px;
+  background: #000;
+  overflow: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.intro {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.intro h2 {
+  margin: 0 0 14px;
+  color: #f4b21d;
+  font-family: "Montserrat", sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.intro p {
+  max-width: 950px;
+  margin: 0 auto;
+  color: #f1f1f1;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   CONTINUOUS OFFER MARQUEE
+   ========================================================= */
+
+.offerViewport {
+  width: 100vw;
+  margin-top: 26px;
+  overflow: hidden;
+  position: relative;
+}
+
+.offerViewport::before,
+.offerViewport::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 110px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.offerViewport::before {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    #000 0%,
+    rgba(0, 0, 0, 0.95) 35%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.offerViewport::after {
+  right: 0;
+  background: linear-gradient(
+    270deg,
+    #000 0%,
+    rgba(0, 0, 0, 0.95) 35%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.offerTrack {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: 20px;
+  padding: 4px 0;
+  animation: offerMarquee 28s linear infinite;
+  will-change: transform;
+}
+
+.offerPill {
+  flex: 0 0 auto;
+  height: 42px;
+  padding: 0 34px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #111;
+  border-radius: 999px;
+
+  color: #f4b21d;
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.offerViewport:hover .offerTrack {
+  animation-play-state: paused;
+}
+
+@keyframes offerMarquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 10px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offerTrack {
+    animation: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 34px 0 18px;
+  }
+
+  .intro {
+    padding: 0 18px;
+  }
+
+  .intro h2 {
+    font-size: 28px;
+  }
+
+  .intro p {
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .offerViewport {
+    margin-top: 20px;
+  }
+
+  .offerTrack {
+    gap: 14px;
+    animation-duration: 24s;
+  }
+
+  .offerPill {
+    height: 38px;
+    padding: 0 25px;
+    font-size: 11px;
+  }
+
+  .offerViewport::before,
+  .offerViewport::after {
+    width: 55px;
+  }
+}
+
+

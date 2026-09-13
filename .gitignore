@@ -1,0 +1,18 @@
+node_modules/
+.next/
+out/
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+.DS_Store
+
+# Local backups / generated files
+backup_*/
+tsconfig.tsbuildinfo
+.next/
+
+# Local backups / generated files
+backup_*/
+tsconfig.tsbuildinfo
+.next/
