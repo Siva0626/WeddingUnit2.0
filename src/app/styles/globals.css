@@ -1,6 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
-
-:root {
+﻿:root {
   --bg: #000;
   --surface: #0a0a0a;
   --surface-2: #111;
@@ -446,4 +444,6 @@ img {
     bottom:76px !important;
   }
 }
+
+
 
