@@ -16,3 +16,13 @@ tsconfig.tsbuildinfo
 backup_*/
 tsconfig.tsbuildinfo
 .next/
+
+# OpenNext
+.open-next
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+
+!.env.example
