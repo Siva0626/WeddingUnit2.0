@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
-  "name": "the-wedding-unit-new-project",
+  "name": "weddingunit2-0",
   "compatibility_date": "2026-09-11",
   "compatibility_flags": [
     "global_fetch_strictly_public"
