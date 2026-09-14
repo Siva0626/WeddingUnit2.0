@@ -15,3 +15,4 @@ export const galleryItems = [
 ].map(([file, category]) => ({ file, category, src: photo(file), alt: `The Wedding Unit ${category.toLowerCase()} photograph` }));
 
 
+

@@ -12,7 +12,7 @@
 .heading h2{
   margin:0;
   color:#f4b21d;
-  font-family:"Montserrat",sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size:22px;
   font-weight:600;
 }
@@ -49,7 +49,7 @@
 .content h3{
   margin:0 0 8px;
   color:#fff;
-  font-family:"Montserrat",sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size:16px;
   font-weight:600;
 }
@@ -58,7 +58,7 @@
   margin:0 auto;
   max-width:320px;
   color:#a7a7a7;
-  font-family:"Montserrat",sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size:11px;
   line-height:1.55;
 }
@@ -72,5 +72,8 @@
     height:230px;
   }
 }
+
+
+
 
 

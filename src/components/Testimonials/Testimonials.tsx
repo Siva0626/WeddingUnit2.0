@@ -16,8 +16,8 @@ export function Testimonials() {
       window.setTimeout(() => {
         setIndex((current) => (current + 1) % testimonialItems.length);
         setTyping(false);
-      }, 550);
-    }, 4000);
+      }, 480);
+    }, 4800);
 
     return () => clearInterval(timer);
   }, []);
@@ -25,77 +25,102 @@ export function Testimonials() {
   const item = testimonialItems[index];
 
   return (
-    <section className={styles.section} id="testimonials" aria-labelledby="testimonials-title">
+    <section
+      className={styles.section}
+      id="testimonials"
+      aria-labelledby="testimonials-title"
+    >
       <div className={styles.container}>
         <div className={styles.heading}>
-          <p className={styles.kicker}>REAL CONVERSATIONS</p>
-          <h2 id="testimonials-title">What Couples Say</h2>
+          <span className={styles.kicker}>Testimonials</span>
+          <h2 id="testimonials-title">Real words, real weddings</h2>
+          <p>
+            Couples and families we&apos;ve worked with, in their own words.
+          </p>
         </div>
 
-        <div className={styles.chatWindow}>
+        <div className={styles.chatPanel}>
           <div className={styles.chatHeader}>
-            <div className={styles.avatar}>
-              <Image src={item.avatar} alt="" fill sizes="42px" />
+            <div className={styles.headerAvatar}>
+              <Image
+                src={item.avatar}
+                alt=""
+                fill
+                sizes="38px"
+              />
             </div>
+
             <div>
-              <strong>{item.name}</strong>
-              <span><i /> online now</span>
+              <strong>The Wedding Unit</strong>
+              <span>
+                <i />
+                Verified client stories
+              </span>
             </div>
           </div>
 
           <div className={styles.chatBody}>
-            <div className={`${styles.message} ${typing ? styles.exit : styles.enter}`}>
-              <div className={styles.bubble}>
-                <p>{item.message}</p>
-                <time>Delivered · {index + 1}/3</time>
+            <div className={styles.botHint}>
+              Here&apos;s what our couples told us 💬
+            </div>
+
+            <div className={styles.testimonialStage}>
+              <div
+                className={`${styles.testimonialBubble} ${
+                  typing ? styles.leave : styles.show
+                }`}
+              >
+                <Image
+                  className={styles.testimonialAvatar}
+                  src={item.avatar}
+                  alt=""
+                  width={42}
+                  height={42}
+                />
+
+                <div className={styles.testimonialContent}>
+                  <div className={styles.name}>{item.name}</div>
+
+                  <div className={styles.role}>
+                    Wedding photography
+                  </div>
+
+                  <div className={styles.stars}>
+                    ★★★★★
+                  </div>
+
+                  <div className={styles.quote}>
+                    {item.message}
+                  </div>
+                </div>
               </div>
             </div>
 
             {typing && (
-              <div className={styles.typing}>
+              <div className={styles.typingBubble}>
                 <span />
                 <span />
                 <span />
-                <em>typing…</em>
               </div>
             )}
           </div>
-        </div>
 
-        <div className={styles.controls}>
-          <button
-            type="button"
-            aria-label="Previous testimonial"
-            onClick={() => setIndex((current) => (current - 1 + testimonialItems.length) % testimonialItems.length)}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m14.5 5-7 7 7 7" />
-            </svg>
-          </button>
-
-          {testimonialItems.map((item, dotIndex) => (
-            <button
-              key={item.name}
-              type="button"
-              aria-label={`Show testimonial ${dotIndex + 1}`}
-              className={dotIndex === index ? styles.activeDot : ""}
-              onClick={() => setIndex(dotIndex)}
-            />
-          ))}
-
-          <button
-            type="button"
-            aria-label="Next testimonial"
-            onClick={() => setIndex((current) => (current + 1) % testimonialItems.length)}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m9.5 5 7 7-7 7" />
-            </svg>
-          </button>
+          <div className={styles.chatDots}>
+            {testimonialItems.map((testimonial, dotIndex) => (
+              <button
+                key={testimonial.name}
+                type="button"
+                aria-label={`Show testimonial ${dotIndex + 1}`}
+                className={
+                  dotIndex === index ? styles.activeDot : ""
+                }
+                onClick={() => setIndex(dotIndex)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
 

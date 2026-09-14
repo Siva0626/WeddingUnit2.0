@@ -1,22 +1,12 @@
 ﻿"use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "./Hero.module.css";
 
 const slides = [
-  {
-    src: "/assets/Photos/01.jpg",
-    alt: "Wedding couple photographed by The Wedding Unit",
-  },
-  {
-    src: "/assets/Photos/02.jpg",
-    alt: "Wedding ceremony photographed by The Wedding Unit",
-  },
-  {
-    src: "/assets/Photos/03.jpg",
-    alt: "Wedding couple sharing a candid moment",
-  },
+  "/assets/Photos/01.jpg",
+  "/assets/Photos/02.jpg",
+  "/assets/Photos/03.jpg",
 ];
 
 export function Hero() {
@@ -24,37 +14,38 @@ export function Hero() {
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setActive((value) => (value + 1) % slides.length);
-    }, 6000);
+      setActive((current) => (current + 1) % slides.length);
+    }, 5000);
 
     return () => window.clearInterval(timer);
   }, []);
 
+  const previousSlide = () => {
+    setActive((current) =>
+      current === 0 ? slides.length - 1 : current - 1
+    );
+  };
+
+  const nextSlide = () => {
+    setActive((current) => (current + 1) % slides.length);
+  };
+
   return (
-    <section className={styles.hero} id="hero" aria-label="Wedding photography hero">
-      <div className={styles.background}>
-        {slides.map((slide, index) => (
-          <div
-            key={slide.src}
-            className={`${styles.slide} ${
-              index === active ? styles.active : ""
-            }`}
-          >
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              priority={index === 0}
-              sizes="100vw"
-              className={styles.image}
-            />
-          </div>
-        ))}
+    <section
+      id="home"
+      className={styles.hero}
+      aria-label="The Wedding Unit hero"
+      style={
+        {
+          "--hero-photo": `url("${slides[active]}")`,
+        } as React.CSSProperties
+      }
+    >
+      <div className={styles.photo} aria-hidden="true" />
 
-        <div className={styles.imageOverlay} />
-      </div>
+      <div className={styles.overlay} />
 
-      <div className={styles.heroCard}>
+      <div className={styles.content}>
         <p className={styles.eyebrow}>
           WEDDING PHOTOGRAPHY · CINEMATOGRAPHY
         </p>
@@ -66,13 +57,40 @@ export function Hero() {
           highlight films. Transparent pricing and friendly crew.
         </p>
 
-        <a href="#contact" className={styles.button}>
+        <a href="#contact" className={styles.cta}>
           Book Your Slot Now
         </a>
+      </div>
+
+      <div className={styles.controls}>
+        <span>
+          {String(active + 1).padStart(2, "0")} / 03
+        </span>
+
+        <button
+          type="button"
+          onClick={previousSlide}
+          aria-label="Previous hero image"
+        >
+          ←
+        </button>
+
+        <button
+          type="button"
+          onClick={nextSlide}
+          aria-label="Next hero image"
+        >
+          →
+        </button>
+      </div>
+
+      <div className={styles.rightStatement}>
+        <span>REAL</span>
+        <span>MOMENTS</span>
+        <span>LAST FOREVER</span>
+        <i />
       </div>
     </section>
   );
 }
-
-
 

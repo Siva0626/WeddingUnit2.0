@@ -44,7 +44,7 @@
    ========================================================= */
 
 .offerViewport {
-  width: 100vw;
+  width: 100%;
   margin-top: 26px;
   overflow: hidden;
   position: relative;
@@ -56,7 +56,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 110px;
+  width: 70px;
   z-index: 2;
   pointer-events: none;
 }
@@ -167,8 +167,17 @@
 
   .offerViewport::before,
   .offerViewport::after {
-    width: 55px;
+    width: 45px;
   }
+}
+
+
+
+
+
+/* TEMPORARY: keep only the first About offer marquee row */
+.offerViewport .offerTrack + .offerTrack {
+  display: none;
 }
 
 

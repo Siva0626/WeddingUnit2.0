@@ -1,3 +1,4 @@
-﻿export function HeroSlide() { return null; }
-
+﻿export function HeroSlide() {
+  return null;
+}
 

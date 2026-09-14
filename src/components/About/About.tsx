@@ -25,10 +25,19 @@ export function About() {
               </span>
             ))}
           </div>
+<div className={styles.offerTrack}>
+            {marqueeOffers.map((offer, index) => (
+              <span className={styles.offerPill} key={`${offer}-${index}`}>
+                {offer}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
+
 
 

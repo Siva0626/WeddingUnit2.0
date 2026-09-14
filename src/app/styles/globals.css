@@ -1,16 +1,22 @@
 ﻿:root {
-  --bg: #000;
-  --surface: #0a0a0a;
-  --surface-2: #111;
+  --bg: #000000;
+  --surface: #080808;
+  --surface-soft: #0b0b0b;
+
   --gold: #f4b21d;
-  --text: #f7f7f7;
-  --muted: #9a9a9a;
-  --border: #242424;
+  --gold-soft: #e6cd93;
+
+  --text: #f5f2ec;
+  --text-soft: #d0c9be;
+  --muted: #9a9389;
+
+  --site-content-width: 1200px;
+  --site-content-gutter: 32px;
 }
 
 html {
   scroll-behavior: smooth;
-  background: #000;
+  background: var(--bg);
 }
 
 *,
@@ -19,11 +25,19 @@ html {
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
-  background: #000;
-  color: #fff;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+
   font-family: "Montserrat", sans-serif;
+
   overflow-x: hidden;
 }
 
@@ -40,8 +54,16 @@ h6,
 p,
 a,
 span,
-label {
+label,
+li {
   font-family: "Montserrat", sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 button,
@@ -49,24 +71,25 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+button {
+  cursor: pointer;
+}
+
 a {
   color: inherit;
   text-decoration: none;
 }
 
-img {
-  max-width: 100%;
+img,
+svg,
+video,
+canvas {
   display: block;
+  max-width: 100%;
 }
 
-::selection {
-  background: var(--gold);
-  color: #000;
-}
-
-:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 3px;
+img {
+  height: auto;
 }
 
 main {
@@ -78,372 +101,88 @@ section {
   width: 100%;
 }
 
+::selection {
+  background: var(--gold);
+  color: #000000;
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   FORM FOUNDATION
+   Page-specific form styling belongs in CSS Modules.
+   No decorative global borders.
+   ============================================================ */
+
+input,
+select,
+textarea {
+  color: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1;
+}
+
+textarea {
+  font-family: inherit;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #252525;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-}
 
-/* ============================================================
-   WEDDING UNIT — GLOBAL ROUNDED CARD SYSTEM
-   ============================================================ */
-
-[class*="card"],
-[class*="Card"],
-.feature-card,
-.why-card,
-.why-choose-card,
-.service-card,
-.package-card,
-.testimonial-card,
-.film-card,
-.story-card,
-.pricing-card,
-.contact-card,
-.offer-card {
-  border-radius:14px !important;
-  overflow:hidden !important;
-}
-
-/* Images inside rounded cards follow the outer shape */
-[class*="card"] img,
-[class*="Card"] img,
-.feature-card img,
-.why-card img,
-.why-choose-card img,
-.service-card img,
-.package-card img,
-.testimonial-card img,
-.film-card img,
-.story-card img {
-  border-radius:0 !important;
-}
-
-/* Buttons and compact controls */
-button,
-a[class*="button"],
-a[class*="Button"],
-.cta,
-.cta-button,
-.pricing-button,
-.book-slot-button {
-  border-radius:8px;
-}
-
-/* Form controls */
-input,
-select,
-textarea {
-  border-radius:8px;
-}
-
-/* Offer pills remain fully rounded */
-.offerPill,
-.offer-pill,
-.offer-strip span {
-  border-radius:999px !important;
-}
-
-/* ============================================================
-   WEDDING UNIT — GLOBAL ROUNDED CARD SYSTEM
-   ============================================================ */
-
-[class*="card"],
-[class*="Card"],
-.feature-card,
-.why-card,
-.why-choose-card,
-.service-card,
-.package-card,
-.testimonial-card,
-.film-card,
-.story-card,
-.pricing-card,
-.contact-card,
-.offer-card {
-  border-radius:14px !important;
-  overflow:hidden !important;
-}
-
-/* Images inside rounded cards follow the outer shape */
-[class*="card"] img,
-[class*="Card"] img,
-.feature-card img,
-.why-card img,
-.why-choose-card img,
-.service-card img,
-.package-card img,
-.testimonial-card img,
-.film-card img,
-.story-card img {
-  border-radius:0 !important;
-}
-
-/* Buttons and compact controls */
-button,
-a[class*="button"],
-a[class*="Button"],
-.cta,
-.cta-button,
-.pricing-button,
-.book-slot-button {
-  border-radius:8px;
-}
-
-/* Form controls */
-input,
-select,
-textarea {
-  border-radius:8px;
-}
-
-/* Offer pills remain fully rounded */
-.offerPill,
-.offer-pill,
-.offer-strip span {
-  border-radius:999px !important;
-}
-
-/* ============================================================
-   GLOBAL ROUNDED CORNERS
-   ============================================================ */
-
-img,
-button,
-input,
-textarea,
-select,
-.card,
-.feature-card,
-.why-card,
-.why-choose-card,
-.service-card,
-.package-card,
-.testimonial-card,
-.video-card,
-.gallery-card,
-.contact-card,
-.offer,
-.offerPill,
-.offer-strip span,
-nav,
-header,
-footer {
-  border-radius: 12px;
-}
-
-img {
-  overflow: hidden;
-}
-
-/* Keep circular UI elements circular */
-button[aria-label*="menu"],
-button[aria-label*="close"],
-button[aria-label*="Previous"],
-button[aria-label*="Next"] {
-  border-radius: 999px;
-}
-
-/* ============================================================
-   FLOATING ACTION BUTTONS
-   WhatsApp = lower-right
-   Back to top = above WhatsApp
-   Never overlap
-   ============================================================ */
-
-.whatsapp-float,
-.whatsapp-button,
-.whatsappButton {
-  position: fixed !important;
-  right: 24px !important;
-  bottom: 24px !important;
-  z-index: 1100 !important;
-}
-
-.back-to-top,
-.backToTop,
-.back-to-top-button {
-  position: fixed !important;
-  right: 24px !important;
-  bottom: 88px !important;
-  z-index: 1101 !important;
-}
-
-/* Prevent floating buttons from creating horizontal overflow */
-.whatsapp-float,
-.whatsapp-button,
-.whatsappButton,
-.back-to-top,
-.backToTop,
-.back-to-top-button {
-  max-width: calc(100vw - 32px);
-}
-
-@media(max-width:700px){
-  .whatsapp-float,
-  .whatsapp-button,
-  .whatsappButton {
-    right:16px !important;
-    bottom:16px !important;
-  }
-
-  .back-to-top,
-  .backToTop,
-  .back-to-top-button {
-    right:16px !important;
-    bottom:78px !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 /* ============================================================
-   GLOBAL ROUNDED CORNERS
+   MOBILE BASE
    ============================================================ */
 
-img,
-button,
-input,
-textarea,
-select,
-.card,
-.feature-card,
-.why-card,
-.why-choose-card,
-.service-card,
-.package-card,
-.testimonial-card,
-.video-card,
-.gallery-card,
-.contact-card,
-.offer,
-.offerPill,
-.offer-strip span,
-nav,
-header,
-footer {
-  border-radius: 12px;
-}
-
-img {
-  overflow: hidden;
-}
-
-/* Keep circular UI elements circular */
-button[aria-label*="menu"],
-button[aria-label*="close"],
-button[aria-label*="Previous"],
-button[aria-label*="Next"] {
-  border-radius: 999px;
-}
-
-/* ============================================================
-   FLOATING ACTION BUTTONS
-   WhatsApp = lower-right
-   Back to top = above WhatsApp
-   Never overlap
-   ============================================================ */
-
-.whatsapp-float,
-.whatsapp-button,
-.whatsappButton {
-  position: fixed !important;
-  right: 24px !important;
-  bottom: 24px !important;
-  z-index: 1100 !important;
-}
-
-.back-to-top,
-.backToTop,
-.back-to-top-button {
-  position: fixed !important;
-  right: 24px !important;
-  bottom: 88px !important;
-  z-index: 1101 !important;
-}
-
-/* Prevent floating buttons from creating horizontal overflow */
-.whatsapp-float,
-.whatsapp-button,
-.whatsappButton,
-.back-to-top,
-.backToTop,
-.back-to-top-button {
-  max-width: calc(100vw - 32px);
-}
-
-@media(max-width:700px){
-  .whatsapp-float,
-  .whatsapp-button,
-  .whatsappButton {
-    right:16px !important;
-    bottom:16px !important;
-  }
-
-  .back-to-top,
-  .backToTop,
-  .back-to-top-button {
-    right:16px !important;
-    bottom:78px !important;
+@media (max-width: 700px) {
+  :root {
+    --site-content-gutter: 14px;
   }
 }
-
-
-/* GLOBAL CORNER LANGUAGE */
-.card,
-.feature-card,
-.service-card,
-.package-card,
-.testimonial-card,
-.video-card,
-.gallery-card,
-.why-card,
-.offer-pill,
-.offerPill,
-input,
-textarea,
-select,
-button,
-img {
-  border-radius: 12px;
-}
-
-img {
-  overflow: hidden;
-}
-
-/* Floating controls - separated vertically */
-.whatsapp-float,
-.whatsapp-button,
-.whatsappButton {
-  position: fixed !important;
-  right: 22px !important;
-  bottom: 22px !important;
-  z-index: 1200 !important;
-}
-
-.back-to-top,
-.backToTop,
-.back-to-top-button {
-  position: fixed !important;
-  right: 22px !important;
-  bottom: 92px !important;
-  z-index: 1201 !important;
-}
-
-@media(max-width:700px){
-  .whatsapp-float,
-  .whatsapp-button,
-  .whatsappButton {
-    right:16px !important;
-    bottom:16px !important;
-  }
-
-  .back-to-top,
-  .backToTop,
-  .back-to-top-button {
-    right:16px !important;
-    bottom:76px !important;
-  }
-}
-
-
-

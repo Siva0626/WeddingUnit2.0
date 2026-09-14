@@ -67,3 +67,4 @@ export const assetMap: AssetMapEntry[] = [
 export const photo = (name: string) => `/assets/Photos/${encodeURIComponent(name)}`;
 
 
+

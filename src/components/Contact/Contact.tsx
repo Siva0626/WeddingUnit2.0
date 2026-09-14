@@ -1,238 +1,554 @@
-﻿"use client";
+﻿'use client';
 
-import { FormEvent, useState } from "react";
-import styles from "./Contact.module.css";
+import { FormEvent, useEffect, useMemo, useState } from 'react';
+import styles from './Contact.module.css';
+
+type Preset = {
+  service?: string;
+  packageName?: string;
+};
+
+type EventType =
+  | 'Wedding'
+  | 'Reception'
+  | 'Engagement'
+  | 'Pre-Wedding'
+  | 'Baby Shower'
+  | 'Other';
+
+type PackageName = 'Silver' | 'Gold' | 'Platinum' | 'Custom Package';
+
+const ADDRESS =
+  '59C, Krishnaswamy Nagar, Sowripalayam Pirivu, Ramanathapuram, Coimbatore, Tamil Nadu 641045';
+
+const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  ADDRESS
+)}`;
+
+const eventTypes: EventType[] = [
+  'Wedding',
+  'Reception',
+  'Engagement',
+  'Pre-Wedding',
+  'Baby Shower',
+  'Other',
+];
+
+const packages: Array<{
+  name: PackageName;
+  description: string;
+}> = [
+  {
+    name: 'Silver',
+    description: 'Essential coverage',
+  },
+  {
+    name: 'Gold',
+    description: 'Signature coverage',
+  },
+  {
+    name: 'Platinum',
+    description: 'Complete experience',
+  },
+  {
+    name: 'Custom Package',
+    description: 'Built around you',
+  },
+];
+
+function Icon({
+  type,
+}: {
+  type: 'user' | 'mail' | 'phone' | 'calendar' | 'location' | 'camera' | 'package';
+}) {
+  if (type === 'user') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="8" r="3.5" />
+        <path d="M5 20c.8-3.2 3.1-5 7-5s6.2 1.8 7 5" />
+      </svg>
+    );
+  }
+
+  if (type === 'mail') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3.5" y="5" width="17" height="14" rx="2" />
+        <path d="m5 7 7 5 7-5" />
+      </svg>
+    );
+  }
+
+  if (type === 'phone') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7.2 3.8 9.5 3l2 4.5-2 1.5a14 14 0 0 0 5.5 5.5l1.5-2 4.5 2-.8 2.3a2.2 2.2 0 0 1-2.4 1.4C10.7 17.2 6.8 13.3 3.8 6.2A2.2 2.2 0 0 1 5.2 3.8Z" />
+      </svg>
+    );
+  }
+
+  if (type === 'calendar') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="4" y="5.5" width="16" height="15" rx="2" />
+        <path d="M8 3.5v4M16 3.5v4M4 10h16" />
+      </svg>
+    );
+  }
+
+  if (type === 'location') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19 10c0 5-7 10-7 10S5 15 5 10a7 7 0 1 1 14 0Z" />
+        <circle cx="12" cy="10" r="2.3" />
+      </svg>
+    );
+  }
+
+  if (type === 'camera') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 8.5h4l1.5-2h5l1.5 2h4v10H4Z" />
+        <circle cx="12" cy="13.5" r="3.2" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m12 3 8 4-8 4-8-4 8-4Z" />
+      <path d="m4 12 8 4 8-4M4 17l8 4 8-4" />
+    </svg>
+  );
+}
 
 export function Contact() {
-  const [submitted, setSubmitted] = useState(false);
-  const [eventType, setEventType] = useState("");
+  const [preset, setPreset] = useState<Preset>({});
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [location, setLocation] = useState('');
+  const [guests, setGuests] = useState('');
+  const [eventType, setEventType] = useState<EventType>('Wedding');
+  const [packageName, setPackageName] =
+    useState<PackageName>('Gold');
+  const [message, setMessage] = useState('');
+  const [consent, setConsent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
-  const events = [
-    "Wedding Photography",
-    "Cinematography",
-    "Pre-Wedding Shoot",
-    "Engagement",
-    "Events & Functions",
-    "Other",
-  ];
+  useEffect(() => {
+    const handlePreset = (event: Event) => {
+      const customEvent = event as CustomEvent<Preset>;
+      const nextPreset = customEvent.detail || {};
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+      setPreset(nextPreset);
 
-    const form = e.currentTarget;
-    const data = new FormData(form);
+      if (nextPreset.packageName) {
+        const matchingPackage = packages.find(
+          (item) => item.name === nextPreset.packageName
+        );
 
-    const payload = {
-      name: String(data.get("name") || ""),
-      email: String(data.get("email") || ""),
-      phone: String(data.get("phone") || ""),
-      event_type: String(data.get("event_type") || ""),
-      event_date: String(data.get("event_date") || ""),
-      location: String(data.get("location") || ""),
-      message: String(data.get("message") || ""),
-      consent: data.get("consent") === "on",
+        if (matchingPackage) {
+          setPackageName(matchingPackage.name);
+        }
+      }
+
+      if (nextPreset.service) {
+        const matchingEvent = eventTypes.find(
+          (item) =>
+            item.toLowerCase() === nextPreset.service?.toLowerCase()
+        );
+
+        if (matchingEvent) {
+          setEventType(matchingEvent);
+        }
+      }
+    };
+
+    window.addEventListener('prefill-enquiry', handlePreset);
+
+    return () => {
+      window.removeEventListener('prefill-enquiry', handlePreset);
+    };
+  }, []);
+
+  const enquirySummary = useMemo(() => {
+    const parts = [
+      name.trim(),
+      eventType,
+      packageName,
+      eventDate,
+      location.trim(),
+    ].filter(Boolean);
+
+    return parts.join(' · ');
+  }, [name, eventType, packageName, eventDate, location]);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    setSuccess('');
+    setError('');
+
+    if (!consent) {
+      setError('Please confirm that you agree to be contacted.');
+      return;
+    }
+
+    setSubmitting(true);
+
+    const data = {
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      eventType,
+      packageName,
+      eventDate,
+      location: location.trim(),
+      guests: guests.trim(),
+      message: message.trim(),
+      consent,
+      preset,
+      enquirySummary,
     };
 
     try {
-      const response = await fetch("/api/enquiry", {
-        method: "POST",
+      const response = await fetch('/api/enquiry', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
-        throw new Error("Unable to submit enquiry");
+        throw new Error('Unable to submit enquiry.');
       }
 
-      setSubmitted(true);
-      form.reset();
-      setEventType("");
+      setSuccess(
+        'Thank you. Your enquiry has been received. We will get back to you shortly.'
+      );
+
+      setName('');
+      setEmail('');
+      setPhone('');
+      setEventDate('');
+      setLocation('');
+      setGuests('');
+      setMessage('');
+      setConsent(false);
     } catch {
-      setSubmitted(false);
+      setError(
+        'Something went wrong while sending your enquiry. Please try again.'
+      );
+    } finally {
+      setSubmitting(false);
     }
   }
 
   return (
-    <section id="contact" className={styles.section}>
+    <section
+      id="contact"
+      className={styles.section}
+      aria-labelledby="contact-title"
+    >
       <div className={styles.container}>
         <div className={styles.heading}>
-          <span>LET&apos;S CREATE SOMETHING TIMELESS</span>
-          <h2>Contact &amp; Booking</h2>
+          <p className="sectionKicker">CONTACT &amp; BOOKING</p>
+
+          <h2 id="contact-title">Let&apos;s Create Something Timeless.</h2>
+
+          <div className={styles.headingAccent} aria-hidden="true">
+            <span />
+            <span>✦</span>
+            <span />
+          </div>
+
+          <h3>Tell us about your celebration.</h3>
+
           <p>
-            Share your date, venue and vision. We&apos;ll help shape the right
-            coverage for your story.
+            Share your date, venue and expectations — we&apos;ll send a
+            tailored quote and breakdown.
           </p>
         </div>
 
-        <div className={styles.layout}>
-          <div className={styles.visual}>
-            <div className={styles.imageWrap}>
-              <img
-                src="/assets/Photos/01.jpg"
-                alt="Wedding photography"
-              />
-              <div className={styles.imageOverlay} />
-              <div className={styles.quote}>
-                <span>&quot;Every story deserves to be remembered.&quot;</span>
-              </div>
+        <div className={styles.formPanel}>
+          <div className={styles.panelTop}>
+            <div>
+              <span className={styles.panelKicker}>YOUR ENQUIRY</span>
+              <h3>Let&apos;s plan your story.</h3>
             </div>
 
-            <div className={styles.contactMeta}>
-              <div>
-                <small>WHATSAPP</small>
-                <strong>Chat with us</strong>
-              </div>
-
-              <div>
-                <small>RESPONSE</small>
-                <strong>Usually within 24 hours</strong>
-              </div>
+            <div className={styles.panelStatement}>
+              <span>CRAFTED WITH INTENTION</span>
+              <span>CAPTURED FOR A LIFETIME</span>
+              <i />
             </div>
           </div>
 
-          <div className={styles.formCard}>
-            {submitted ? (
-              <div className={styles.success}>
-                <div className={styles.successIcon}>✓</div>
-                <h3>Thank You!</h3>
-                <p>
-                  Your enquiry has been received. We&apos;ll get back to you
-                  shortly.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setSubmitted(false)}
-                >
-                  Send Another Enquiry
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <div className={styles.formHeader}>
-                  <small>YOUR DETAILS</small>
-                  <h3>Tell us about your day</h3>
-                </div>
+          <form onSubmit={handleSubmit} noValidate>
+            <div className={styles.basicFields}>
+              <label className={styles.field}>
+                <span>
+                  YOUR NAME <b>*</b>
+                </span>
 
-                <div className={styles.field}>
-                  <label htmlFor="name">Your Name</label>
+                <span className={styles.inputWrap}>
+                  <Icon type="user" />
                   <input
-                    id="name"
-                    name="name"
                     type="text"
-                    placeholder="Enter your name"
+                    name="name"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    placeholder="Your full name"
+                    autoComplete="name"
                     required
                   />
-                </div>
+                </span>
+              </label>
 
-                <div className={styles.row}>
-                  <div className={styles.field}>
-                    <label htmlFor="email">Email</label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="you@example.com"
-                      required
-                    />
-                  </div>
+              <label className={styles.field}>
+                <span>
+                  EMAIL ADDRESS <b>*</b>
+                </span>
 
-                  <div className={styles.field}>
-                    <label htmlFor="phone">Phone Number</label>
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      placeholder="+91"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className={styles.field}>
-                  <label>Event Type</label>
-                  <div className={styles.chips}>
-                    {events.map((event) => (
-                      <button
-                        key={event}
-                        type="button"
-                        className={
-                          eventType === event
-                            ? styles.chipActive
-                            : styles.chip
-                        }
-                        onClick={() => setEventType(event)}
-                      >
-                        {event}
-                      </button>
-                    ))}
-                  </div>
+                <span className={styles.inputWrap}>
+                  <Icon type="mail" />
                   <input
-                    type="hidden"
-                    name="event_type"
-                    value={eventType}
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder="you@example.com"
+                    autoComplete="email"
                     required
                   />
-                </div>
+                </span>
+              </label>
 
-                <div className={styles.row}>
-                  <div className={styles.field}>
-                    <label htmlFor="event_date">Event Date</label>
-                    <input
-                      id="event_date"
-                      name="event_date"
-                      type="date"
-                      min={new Date().toISOString().split("T")[0]}
-                      required
-                    />
-                  </div>
+              <label className={styles.field}>
+                <span>
+                  PHONE NUMBER <b>*</b>
+                </span>
 
-                  <div className={styles.field}>
-                    <label htmlFor="location">Location / Venue</label>
-                    <input
-                      id="location"
-                      name="location"
-                      type="text"
-                      placeholder="Venue / City"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className={styles.field}>
-                  <label htmlFor="message">
-                    Tell us about your wedding
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    placeholder="Tell us about your plans, expectations or anything you'd like us to know..."
+                <span className={styles.inputWrap}>
+                  <Icon type="phone" />
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                    placeholder="+91"
+                    autoComplete="tel"
+                    required
                   />
-                </div>
+                </span>
+              </label>
+            </div>
 
-                <label className={styles.consent}>
-                  <input type="checkbox" name="consent" required />
-                  <span>
-                    I agree to be contacted regarding my enquiry.
-                  </span>
-                </label>
+            <div className={styles.selectionGroup}>
+              <span className={styles.groupLabel}>
+                WHAT ARE YOU CELEBRATING? <b>*</b>
+              </span>
 
-                <button className={styles.submit} type="submit">
-                  SEND ENQUIRY
-                  <span>→</span>
-                </button>
+              <div className={styles.eventGrid}>
+                {eventTypes.map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    className={`${styles.eventCard} ${
+                      eventType === type ? styles.selected : ''
+                    }`}
+                    aria-pressed={eventType === type}
+                    onClick={() => setEventType(type)}
+                  >
+                    <Icon type="camera" />
+                    <span>{type}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
 
-                <p className={styles.whatsappNote}>
-                  Prefer WhatsApp? <a href="https://wa.me/919656500127">Chat with us →</a>
-                </p>
-              </form>
+            <div className={styles.selectionGroup}>
+              <span className={styles.groupLabel}>
+                CHOOSE YOUR PACKAGE <b>*</b>
+              </span>
+
+              <div className={styles.packageGrid}>
+                {packages.map((item) => (
+                  <button
+                    key={item.name}
+                    type="button"
+                    className={`${styles.packageCard} ${
+                      packageName === item.name ? styles.selected : ''
+                    }`}
+                    aria-pressed={packageName === item.name}
+                    onClick={() => setPackageName(item.name)}
+                  >
+                    <Icon type="package" />
+                    <strong>{item.name}</strong>
+                    <small>{item.description}</small>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.detailFields}>
+              <label className={styles.field}>
+                <span>
+                  EVENT DATE <b>*</b>
+                </span>
+
+                <span className={styles.inputWrap}>
+                  <Icon type="calendar" />
+                  <input
+                    type="date"
+                    name="eventDate"
+                    value={eventDate}
+                    onChange={(event) =>
+                      setEventDate(event.target.value)
+                    }
+                    required
+                  />
+                </span>
+              </label>
+
+              <label className={styles.field}>
+                <span>
+                  EVENT LOCATION <b>*</b>
+                </span>
+
+                <span className={styles.inputWrap}>
+                  <Icon type="location" />
+                  <input
+                    type="text"
+                    name="location"
+                    value={location}
+                    onChange={(event) =>
+                      setLocation(event.target.value)
+                    }
+                    placeholder="Venue / City"
+                    autoComplete="address-level2"
+                    required
+                  />
+                </span>
+              </label>
+
+              <label className={styles.field}>
+                <span>NUMBER OF GUESTS</span>
+
+                <span className={styles.inputWrap}>
+                  <Icon type="user" />
+                  <input
+                    type="text"
+                    name="guests"
+                    value={guests}
+                    onChange={(event) => setGuests(event.target.value)}
+                    placeholder="Approx. guest count"
+                    inputMode="numeric"
+                  />
+                </span>
+              </label>
+            </div>
+
+            <label className={styles.messageField}>
+              <span>MESSAGE / REQUIREMENTS</span>
+
+              <textarea
+                name="message"
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+                placeholder="Tell us a little about your celebration, expectations or anything else we should know."
+              />
+            </label>
+
+            <label className={styles.consent}>
+              <input
+                type="checkbox"
+                name="consent"
+                checked={consent}
+                onChange={(event) => setConsent(event.target.checked)}
+                required
+              />
+
+              <span>
+                I agree to be contacted by The Wedding Unit regarding my
+                enquiry.
+              </span>
+            </label>
+
+            <div className={styles.submitRow}>
+              <button
+                className={styles.submit}
+                type="submit"
+                disabled={submitting}
+              >
+                {submitting ? 'SENDING...' : 'SEND ENQUIRY'}
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+
+            {success && (
+              <p className={styles.success} role="status">
+                {success}
+              </p>
             )}
+
+            {error && (
+              <p className={styles.error} role="alert">
+                {error}
+              </p>
+            )}
+          </form>
+
+          <div className={styles.enquiryBar}>
+            <strong>ENQUIRY</strong>
+
+            <i aria-hidden="true" />
+
+            <div className={styles.barItem}>
+              <Icon type="location" />
+
+              <div className={styles.addressBlock}>
+                <a
+                  href={MAPS_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Open The Wedding Unit address in Google Maps"
+                >
+                  {ADDRESS}
+                </a>
+
+                <a
+                  className={styles.directions}
+                  href={MAPS_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  GET DIRECTIONS →
+                </a>
+              </div>
+            </div>
+
+            <div className={styles.barItem}>
+              <Icon type="mail" />
+
+              <a href="mailto:theweddingunit@gmail.com">
+                theweddingunit@gmail.com
+              </a>
+            </div>
+
+            <div className={styles.barItem}>
+              <Icon type="phone" />
+
+              <a href="tel:+919655800127">+91 96558 00127</a>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
-

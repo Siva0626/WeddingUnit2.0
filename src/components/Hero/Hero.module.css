@@ -1,176 +1,326 @@
 ﻿.hero {
-  position: relative;
-  width: 100%;
-  height: 515px;
-  min-height: 515px;
-  max-height: 515px;
-  overflow: hidden;
-  background: #000;
+  --hero-photo: url("/assets/Photos/01.jpg");
+
+  position: relative !important;
+
+  width: 100% !important;
+  height: 515px !important;
+  min-height: 515px !important;
+
+  overflow: hidden !important;
+
+  background-color: #000 !important;
+  background-image: var(--hero-photo) !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
+
+  z-index: 1 !important;
 }
 
-.background {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+/* Direct photographic surface */
+.photo {
+  position: absolute !important;
+
+  inset: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  background-image: var(--hero-photo) !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
+
+  opacity: 1 !important;
+
+  z-index: 1 !important;
+
+  pointer-events: none !important;
 }
 
-.slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 900ms ease;
+/* Light cinematic treatment */
+.overlay {
+  position: absolute !important;
+
+  inset: 0 !important;
+
+  z-index: 2 !important;
+
+  pointer-events: none !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.10) 0%,
+      rgba(0, 0, 0, 0.02) 45%,
+      rgba(0, 0, 0, 0.30) 100%
+    ) !important;
 }
 
-.active {
-  opacity: 1;
-  visibility: visible;
-}
+/* Center panel */
+.content {
+  position: absolute !important;
 
-.image {
-  object-fit: cover;
-  object-position: center center;
-}
+  left: 50% !important;
+  top: 53% !important;
 
-.imageOverlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.08);
-  pointer-events: none;
-}
+  transform: translate(-50%, -50%) !important;
 
-.heroCard {
-  position: absolute;
-  z-index: 10;
+  width: min(690px, calc(100% - 40px)) !important;
 
-  left: 50%;
-  top: 52%;
-  transform: translate(-50%, -50%);
+  padding: 26px 34px 27px !important;
 
-  width: min(690px, calc(100% - 40px));
-  min-height: 190px;
+  box-sizing: border-box !important;
 
-  padding: 24px 32px;
+  text-align: center !important;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background: rgba(8, 8, 8, 0.68) !important;
 
-  background: rgba(0, 0, 0, 0.74);
-  border-radius: 9px;
+  border-radius: 15px !important;
 
-  text-align: center;
+  z-index: 10 !important;
 }
 
 .eyebrow {
-  margin: 0 0 9px;
-  color: #f4b21d;
+  margin: 0 0 10px !important;
+
+  color: rgba(255, 255, 255, 0.85) !important;
+
   font-family: "Montserrat", sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+
+  font-size: 9px !important;
+
+  font-weight: 700 !important;
+
+  letter-spacing: 0.16em !important;
 }
 
-.heroCard h1 {
-  margin: 0 0 12px;
-  color: #f4b21d;
+.content h1 {
+  margin: 0 !important;
+
+  color: #f4b21d !important;
+
   font-family: "Montserrat", sans-serif;
-  font-size: 35px;
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+
+  font-size: 30px !important;
+
+  line-height: 1.18 !important;
+
+  font-weight: 800 !important;
+
+  letter-spacing: -0.025em !important;
 }
 
 .description {
-  max-width: 610px;
-  margin: 0 0 19px;
+  max-width: 620px !important;
 
-  color: #fff;
-  font-family: "Montserrat", sans-serif;
-  font-size: 12.5px;
-  font-weight: 400;
-  line-height: 1.5;
-}
+  margin: 13px auto 21px !important;
 
-.button {
-  min-height: 46px;
-  padding: 0 25px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 7px;
-  background: #f4b21d;
-  color: #050505;
+  color: #fff !important;
 
   font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1;
-  text-decoration: none;
 
-  transition:
-    transform 160ms ease,
-    background 160ms ease;
+  font-size: 15px !important;
+
+  line-height: 1.5 !important;
+
+  font-weight: 400 !important;
 }
 
-.button:hover {
-  transform: translateY(-1px);
-  background: #ffc33b;
+.cta {
+  display: inline-flex !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  min-height: 50px !important;
+
+  padding: 0 24px !important;
+
+  border-radius: 10px !important;
+
+  background: #f4b21d !important;
+
+  color: #090705 !important;
+
+  font-family: "Montserrat", sans-serif;
+
+  font-size: 16px !important;
+
+  font-weight: 800 !important;
+
+  text-decoration: none !important;
+
+  cursor: pointer !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .slide {
-    transition: none;
-  }
+.cta:hover {
+  background: #ffc533 !important;
+}
 
-  .button {
-    transition: none;
-  }
+/* Bottom controls */
+.controls {
+  position: absolute !important;
+
+  left: 28px !important;
+  bottom: 27px !important;
+
+  z-index: 20 !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  gap: 8px !important;
+}
+
+.controls span {
+  margin-right: 6px !important;
+
+  color: #fff !important;
+
+  font-family: "Montserrat", sans-serif;
+
+  font-size: 11px !important;
+
+  font-weight: 700 !important;
+}
+
+.controls button {
+  width: 38px !important;
+  height: 38px !important;
+
+  padding: 0 !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+
+  border-radius: 50% !important;
+
+  background: rgba(0, 0, 0, 0.45) !important;
+
+  color: #fff !important;
+
+  cursor: pointer !important;
+}
+
+.controls button:hover {
+  background: #f4b21d !important;
+
+  color: #000 !important;
+
+  border-color: #f4b21d !important;
+}
+
+/* Right-side statement */
+.rightStatement {
+  position: absolute !important;
+
+  right: 28px !important;
+  bottom: 35px !important;
+
+  z-index: 20 !important;
+
+  display: flex !important;
+
+  flex-direction: column !important;
+
+  align-items: flex-end !important;
+
+  color: #fff !important;
+
+  font-family: "Montserrat", sans-serif;
+
+  font-size: 9px !important;
+
+  font-weight: 700 !important;
+
+  line-height: 1.4 !important;
+
+  letter-spacing: 0.13em !important;
+}
+
+.rightStatement i {
+  width: 28px !important;
+  height: 2px !important;
+
+  margin-top: 7px !important;
+
+  background: #f4b21d !important;
 }
 
 @media (max-width: 900px) {
   .hero {
-    height: 500px;
-    min-height: 500px;
-    max-height: 500px;
+    height: 470px !important;
+    min-height: 470px !important;
   }
 
-  .heroCard {
-    width: calc(100% - 28px);
-    min-height: 175px;
-    padding: 21px 18px;
+  .rightStatement {
+    display: none !important;
   }
 
-  .heroCard h1 {
-    font-size: 26px;
-  }
-
-  .description {
-    font-size: 11px;
-  }
-
-  .button {
-    min-height: 42px;
-    font-size: 12px;
+  .content {
+    width: min(88vw, 680px) !important;
   }
 }
 
 @media (max-width: 600px) {
   .hero {
-    height: 480px;
-    min-height: 480px;
-    max-height: 480px;
+    height: 500px !important;
+    min-height: 500px !important;
   }
 
-  .heroCard h1 {
-    font-size: 23px;
+  .content {
+    width: calc(100% - 30px) !important;
+
+    padding: 23px 18px !important;
+  }
+
+  .content h1 {
+    font-size: 26px !important;
+  }
+
+  .description {
+    font-size: 13px !important;
+  }
+
+  .controls {
+    left: 15px !important;
+    bottom: 15px !important;
   }
 }
 
 
+
+/* ============================================================
+   HERO TEXT CLEANUP
+   Keep wording only - remove background blocks behind text
+   ============================================================ */
+
+.eyebrow {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.description {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Remove any pseudo-element bars behind Hero text */
+.content::before,
+.content::after,
+.eyebrow::before,
+.eyebrow::after,
+.description::before,
+.description::after {
+  display: none !important;
+  content: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}

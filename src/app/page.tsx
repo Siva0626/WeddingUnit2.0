@@ -1,4 +1,5 @@
-﻿import { Header } from "@/components/Header/Header";
+﻿import { Footer } from "@/components/Footer/Footer";
+import { Header } from "@/components/Header/Header";
 import { Hero } from "@/components/Hero/Hero";
 import { About } from "@/components/About/About";
 import { WhyChooseUs } from "@/components/WhyChooseUs/WhyChooseUs";
@@ -8,7 +9,6 @@ import { Services } from "@/components/Services/Services";
 import { Packages } from "@/components/Packages/Packages";
 import { Testimonials } from "@/components/Testimonials/Testimonials";
 import { Contact } from "@/components/Contact/Contact";
-import { Footer } from "@/components/Footer/Footer";
 import { WhatsAppButton } from "@/components/WhatsApp/WhatsAppButton";
 
 export default function Home() {
@@ -26,12 +26,14 @@ export default function Home() {
         <Testimonials />
         <Contact />
       </main>
-
       <Footer />
-      <WhatsAppButton />
+<WhatsAppButton />
     </>
   );
 }
+
+
+
 
 
 

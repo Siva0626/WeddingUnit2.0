@@ -19,6 +19,7 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
+
         <a
           href="#home"
           className={styles.brand}
@@ -28,17 +29,27 @@ export function Header() {
           <Image
             src="/assets/branding/logo.png"
             alt="The Wedding Unit"
-            width={70}
-            height={70}
+            width={44}
+            height={44}
             className={styles.logo}
             priority
           />
 
-          <span className={styles.brandName}>THE WEDDING UNIT</span>
+          <span className={styles.brandCopy}>
+            <strong className={styles.brandName}>
+              THE WEDDING UNIT
+            </strong>
+
+            <small className={styles.brandTagline}>
+              PHOTOGRAPHY
+            </small>
+          </span>
         </a>
 
         <nav
-          className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}
+          className={`${styles.nav} ${
+            menuOpen ? styles.navOpen : ""
+          }`}
           aria-label="Primary navigation"
         >
           {navigation.map(([label, href]) => (
@@ -64,6 +75,7 @@ export function Header() {
           <span />
           <span />
         </button>
+
       </div>
     </header>
   );
